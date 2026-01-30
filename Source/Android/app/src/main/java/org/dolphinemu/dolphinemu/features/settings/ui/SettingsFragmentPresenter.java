@@ -44,6 +44,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.view.StringSingleChoice
 import org.dolphinemu.dolphinemu.features.settings.model.view.SubmenuSetting;
 import org.dolphinemu.dolphinemu.features.settings.utils.SettingsFile;
 import org.dolphinemu.dolphinemu.model.AppTheme;
+import org.dolphinemu.dolphinemu.overlay.InputOverlay;
 import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
 import org.dolphinemu.dolphinemu.utils.BooleanSupplier;
 import org.dolphinemu.dolphinemu.utils.EGLHelper;
@@ -160,6 +161,10 @@ public final class SettingsFragmentPresenter
         addInterfaceSettings(sl);
         break;
 
+                        case GESTURES:
+                                addGestureSettings(sl);
+                                break;
+
       case CONFIG_AUDIO:
         addAudioSettings(sl);
         break;
@@ -273,7 +278,9 @@ public final class SettingsFragmentPresenter
     sl.add(new HeaderSetting(mContext, R.string.setting_clear_info, 0));
     sl.add(new SubmenuSetting(mContext, R.string.general_submenu, MenuTag.CONFIG_GENERAL));
     sl.add(new SubmenuSetting(mContext, R.string.graphics_general, MenuTag.GRAPHICS));
-    sl.add(new SubmenuSetting(mContext, R.string.interface_submenu, MenuTag.CONFIG_INTERFACE));
+                sl.add(new SubmenuSetting(mContext, R.string.interface_submenu, MenuTag.CONFIG_INTERFACE));
+                if (!TextUtils.isEmpty(mGameID))
+                        sl.add(new SubmenuSetting(mContext, R.string.gesture_submenu, MenuTag.GESTURES));
     sl.add(new SubmenuSetting(mContext, R.string.audio_submenu, MenuTag.CONFIG_AUDIO));
     sl.add(new SubmenuSetting(mContext, R.string.paths_submenu, MenuTag.CONFIG_PATHS));
     sl.add(new SubmenuSetting(mContext, R.string.gamecube_submenu, MenuTag.CONFIG_GAME_CUBE));
@@ -339,6 +346,54 @@ public final class SettingsFragmentPresenter
             R.string.download_game_covers, 0));
     //sl.add(new CheckBoxSetting(mContext, BooleanSetting.UPDATER_CHECK_AT_STARTUP, R.string.updater_check_startup,
     //        R.string.updater_check_startup_description));
+  }
+
+  private void addGestureSettings(ArrayList<SettingsItem> sl)
+  {
+                int controller = InputOverlay.getConfiguredControllerType(mContext);
+                int gestureEntries = R.array.gestureActionEntries;
+                if (controller == InputOverlay.OVERLAY_GAMECUBE)
+                        gestureEntries = R.array.gestureActionEntriesGameCube;
+                else if (controller == InputOverlay.OVERLAY_WIIMOTE_CLASSIC)
+                        gestureEntries = R.array.gestureActionEntriesClassic;
+
+    sl.add(new HeaderSetting(mContext, R.string.gesture_submenu, 0));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_GESTURE_CONTROLS,
+            R.string.gesture_controls_enable, 0));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_GESTURE_AUTO_LAYOUT,
+            R.string.gesture_controls_auto_layout, 0));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_GESTURE_HIDE_DEFAULT_BUTTONS,
+            R.string.gesture_controls_hide_buttons, 0));
+    sl.add(new IntSliderSetting(mContext, IntSetting.GESTURE_SWIPE_DEADZONE,
+            R.string.gesture_deadzone, 0, 0, 200, "px"));
+
+    sl.add(new HeaderSetting(mContext, R.string.gesture_left_zone, 0));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_TAP,
+            R.string.gesture_tap, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_DOUBLE_TAP,
+            R.string.gesture_double_tap, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_SWIPE_UP,
+            R.string.gesture_swipe_up, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_SWIPE_DOWN,
+            R.string.gesture_swipe_down, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_SWIPE_LEFT,
+            R.string.gesture_swipe_left, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_LEFT_SWIPE_RIGHT,
+            R.string.gesture_swipe_right, 0, gestureEntries, R.array.gestureActionValues));
+
+    sl.add(new HeaderSetting(mContext, R.string.gesture_right_zone, 0));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_TAP,
+            R.string.gesture_tap, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_DOUBLE_TAP,
+            R.string.gesture_double_tap, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_SWIPE_UP,
+            R.string.gesture_swipe_up, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_SWIPE_DOWN,
+            R.string.gesture_swipe_down, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_SWIPE_LEFT,
+            R.string.gesture_swipe_left, 0, gestureEntries, R.array.gestureActionValues));
+    sl.add(new SingleChoiceSetting(mContext, IntSetting.GESTURE_RIGHT_SWIPE_RIGHT,
+            R.string.gesture_swipe_right, 0, gestureEntries, R.array.gestureActionValues));
   }
 
   private void addAudioSettings(ArrayList<SettingsItem> sl)
@@ -719,6 +774,10 @@ public final class SettingsFragmentPresenter
     sl.add(new SingleChoiceSetting(mContext, IntSetting.GFX_EFB_SCALE, R.string.internal_resolution,
             R.string.internal_resolution_description, R.array.internalResolutionEntries,
             R.array.internalResolutionValues));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENHANCE_FSR1_ENABLE,
+            R.string.fsr1_enable, R.string.fsr1_enable_description));
+    sl.add(new PercentSliderSetting(mContext, FloatSetting.GFX_ENHANCE_FSR1_SHARPNESS,
+            R.string.fsr1_sharpness, R.string.fsr1_sharpness_description, 0, 100, "%"));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.GFX_MSAA, R.string.FSAA,
             R.string.FSAA_description, R.array.FSAAEntries, R.array.FSAAValues));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.GFX_ENHANCE_MAX_ANISOTROPY,

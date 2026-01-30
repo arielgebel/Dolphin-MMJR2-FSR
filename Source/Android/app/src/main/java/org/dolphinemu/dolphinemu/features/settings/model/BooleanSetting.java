@@ -108,6 +108,13 @@ public enum BooleanSetting implements AbstractBooleanSetting
   MAIN_IR_ALWAYS_RECENTER(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
           "IRAlwaysRecenter", false),
 
+  MAIN_GESTURE_CONTROLS(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_GESTURES,
+          "GestureControlsEnabled", false),
+  MAIN_GESTURE_AUTO_LAYOUT(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_GESTURES,
+          "GestureAutoLayout", false),
+  MAIN_GESTURE_HIDE_DEFAULT_BUTTONS(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_GESTURES,
+          "GestureHideDefaultButtons", false),
+
   MAIN_BUTTON_TOGGLE_GC_0(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,
           "ButtonToggleGCButtonA", true),
   MAIN_BUTTON_TOGGLE_GC_1(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,
@@ -241,6 +248,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "DisableCopyFilter", false),
   GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
           "ArbitraryMipmapDetection", false),
+  GFX_ENHANCE_FSR1_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
+          "FSR1Enable", false),
   GFX_CC_CORRECT_COLOR_SPACE(Settings.FILE_GFX, Settings.SECTION_GFX_COLOR_CORRECTION,
           "CorrectColorSpace", false),
   GFX_CC_CORRECT_GAMMA(Settings.FILE_GFX, Settings.SECTION_GFX_COLOR_CORRECTION,

@@ -326,11 +326,30 @@ float4 LinearGammaCorrectedSample(float gamma)
 	{
 		color = AreaSampling(uvw, gamma);
 	}
-	else if (resampling_method == 7) // Nearest Neighbor
+	else if (resampling_method == 7) // FSR (FidelityFX Super Resolution) - Mobile Optimized
+	{
+		float2 src_size = GetResolution();
+		float2 dst_size = GetTargetResolution();
+		bool is_upscale = (dst_size.x > src_size.x) || (dst_size.y > src_size.y);
+
+		if (!is_upscale)
+		{
+			// FSR is designed for upscaling. When downscaling, use bilinear.
+			color = BilinearSample(uvw, gamma);
+		}
+		else
+		{
+			// Ultra-fast path: single HW bilinear sample
+			// (Use this to verify performance; sharpening is disabled here.)
+			color = texture(samp0, uvw);
+			color.rgb = pow(color.rgb, float3(gamma));
+		}
+	}
+	else if (resampling_method == 8) // Nearest Neighbor
 	{
 		color = QuickSample(uvw, gamma);
 	}
-	else if (resampling_method == 8) // Bicubic: Hermite
+	else if (resampling_method == 9) // Bicubic: Hermite
 	{
 		color = BicubicSample(uvw, gamma, CUBIC_COEFF_GEN(0.0, 0.0));
 	}

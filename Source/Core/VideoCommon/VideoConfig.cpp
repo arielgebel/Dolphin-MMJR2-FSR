@@ -162,6 +162,15 @@ void VideoConfig::Refresh()
   fArbitraryMipmapDetectionThreshold =
       Config::Get(Config::GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION_THRESHOLD);
   bHDR = Config::Get(Config::GFX_ENHANCE_HDR_OUTPUT);
+  bFSR1Enable = Config::Get(Config::GFX_ENHANCE_FSR1_ENABLE);
+  fFSR1Sharpness = Config::Get(Config::GFX_ENHANCE_FSR1_SHARPNESS);
+  
+  // If FSR1 is enabled, override output resampling mode to use FSR
+  // This takes precedence over manually configured resampling modes
+  if (bFSR1Enable)
+  {
+    output_resampling_mode = OutputResamplingMode::FSR;
+  }
 
   color_correction.bCorrectColorSpace = Config::Get(Config::GFX_CC_CORRECT_COLOR_SPACE);
   color_correction.game_color_space = Config::Get(Config::GFX_CC_GAME_COLOR_SPACE);

@@ -64,6 +64,7 @@ enum class OutputResamplingMode : int
   CatmullRom,
   SharpBilinear,
   AreaSampling,
+  FSR,  // FidelityFX Super Resolution upscaling
 };
 
 enum class ColorCorrectionRegion : int
@@ -142,6 +143,8 @@ struct VideoConfig final
   bool bArbitraryMipmapDetection = false;
   float fArbitraryMipmapDetectionThreshold = 0;
   bool bHDR = false;
+  bool bFSR1Enable = false;
+  float fFSR1Sharpness = 0.5f;
 
   // Color Correction
   struct
