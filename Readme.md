@@ -1,6 +1,6 @@
 # Dolphin MMJR2 Mobile FSR
 
-This is a personal fork of Dolphin MMJR2. Initially, the goal of this fork was to implement Sam Belliveau's VBI Skip speed hack into the MMJR2 codebase, but has since grown into a semi-actively maintained project. My primary focus is preserving the older MMJR2 user interface, which I find more intuitive and user-friendly, and support for fractional scaling while integrating features and fixes from the upstream Dolphin repository.
+This is an Android-focused fork of Dolphin MMJR2, aimed at mobile playability and performance. The project prioritizes FSR upscaling for better image quality at low internal resolutions, touch gestures for smoother gameplay, and iterative control improvements for specific games, while keeping MMJR2’s classic UX and integrating upstream fixes when possible.
 
 ## Project Focus (Android)
 - Android-only focus.
@@ -15,9 +15,9 @@ This is a personal fork of Dolphin MMJR2. Initially, the goal of this fork was t
 ## Android Requirements
 
 * OS
-    * Android 5.0 Lollipop or higher (SDK >= 21)).
+    * Android 5.0 Lollipop or higher (SDK >= 21).
 * Processor
-    * A 64-bit ARM CPU supporting arm64-v8a ABI.
+    * A 64-bit ARM CPU (arm64-v8a only).
 * Graphics
     * A graphics processor that supports OpenGL ES 3.0 or higher. Performance varies heavily with [driver quality](https://dolphin-emu.org/blog/2013/09/26/dolphin-emulator-and-opengl-drivers-hall-fameshame/).
     * A graphics processor that supports standard desktop OpenGL features is recommended for best performance.
